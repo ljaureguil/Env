@@ -1,0 +1,52 @@
+<html>
+<head>
+    <meta name="viewport" content="width=device-width">
+    <script src="ds:/Sys/app.js"></script>
+</head>
+<button onclick="getC()">Get</button>
+<textarea id="edi" style="width:80%;height:30%; position:absolute;top:30%"></textarea>
+	<button onclick="sendC()">Post</button>
+	
+<script>
+
+var link = "https://jsonblob.com/api/1287813620531322880";
+
+
+
+getC = function(callback) {
+
+    var xhttp = new XMLHttpRequest();
+
+    xhttp.open("GET", link, false);
+    xhttp.send();
+    if (callback != undefined) callback(xhttp.responseText);
+    else edi.value = JSON.parse(xhttp.responseText).cont;
+
+}
+
+
+sendC = function(callback) {
+var ob={};
+ob.cont=edi.value;
+
+    var json = JSON.stringify(ob);
+    var xhr = new XMLHttpRequest();
+    xhr.open("PUT", link + '/12', true);
+    xhr.setRequestHeader('Content-type', 'application/json; charset=utf-8');
+
+    xhr.onload = function() {
+        var users = JSON.parse(xhr.responseText);
+        if (xhr.readyState == 4 && xhr.status == "200") {
+            alert("Tu Forma ha sido Enviada");
+            if (callback != undefined) callback(users);
+        } else { }
+    }
+    xhr.send(json);
+}
+</script>
+
+
+    
+</style>
+
+</html>
