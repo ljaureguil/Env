@@ -6,9 +6,11 @@
 <style>
 
 button{
-    width:100%;
+    width:70%;
     height:5%;
     margin:5px;
+    box-shadow: 10px 5px 5px rgba(200,200,200,.76);
+    border-radius: 5px;
    
 }
 #todo{
@@ -30,16 +32,25 @@ button{
 
 </style>
 <div id="todo">
-<button onclick="getC()">Revisar</button>
+<button onclick="getC()">Revisar</button><button onclick="tradC()" style="width:25%">Traducir</button>
 <textarea id="edi" ></textarea>
-	<button onclick="se()">Enviar</button>
+	<button onclick="se()" style="width:100%">Enviar</button>
 	</div>
 <script>
 
 var link = "https://jsonblob.com/api/1287813620531322880";
+var sbk="";
 
-
-
+function tradC(){
+      var n=prompt("numero?")*1;
+    if(n===null || isNaN(n)) return;
+    var s=edi.value,ss="";
+    for(var i=0;i<s.length;i++){
+        ss+=String.fromCharCode(s.charCodeAt(i)-n)
+    }
+    if(confirm("Does it make sense??\n\n"+ss)) edi.value=ss;
+    else alert("Try again...")
+}
 getC = function(callback) {
 
     var xhttp = new XMLHttpRequest();
@@ -51,10 +62,17 @@ getC = function(callback) {
 
 }
 
-
 se = function(callback) {
+    var n=prompt("numero?")*1;
+    if(n===null || isNaN(n)) return;
+    var s=edi.value,ss="";
+    for(var i=0;i<s.length;i++){
+        ss+=String.fromCharCode(s.charCodeAt(i)+n)
+    }
+  if(confirm("This will be sent with n= "+n+"\n\n"+ss)){
+    ////////
 var ob={};
-ob.cont=edi.value;
+ob.cont=ss;
 
     var json = JSON.stringify(ob);
     var xhr = new XMLHttpRequest();
@@ -69,6 +87,7 @@ ob.cont=edi.value;
         } else { }
     }
     xhr.send(json);
+  }
 }
 </script>
 
